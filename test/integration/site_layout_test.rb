@@ -14,5 +14,14 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
 
     get signup_path
     assert_select "title", full_title("Sign up")
+
+    log_in_as(users(:michael))
+    get users_path
+    assert_select "title", full_title("All users")
+    assert_select "a[href=?]", user_path(users(:michael))
+    assert_select "a[href=?]", user_path(users(:archer))
+    assert_select "a[href=?]", "https://news.railstutorial.org/"
+    assert_select "a[href=?]", about_path
+    assert_select "a[href=?]", contact_path
   end
 end
